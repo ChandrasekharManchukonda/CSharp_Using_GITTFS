@@ -164,7 +164,7 @@ namespace AS_WindowsFormsApplication
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(908, 538);
+            this.ClientSize = new System.Drawing.Size(902, 538);
             this.Controls.Add(this.lblLoading);
             this.Controls.Add(this.Dimension);
             this.Controls.Add(this.label4);

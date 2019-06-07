@@ -183,6 +183,8 @@ namespace AS_WindowsFormsApplication
                 DataSet d = new DataSet();
                 d = DS.Schema;
                 
+            try
+            {
 
             foreach (DimensionAttribute DA in DAC)
             {
@@ -201,27 +203,40 @@ namespace AS_WindowsFormsApplication
 
                     DataTable VT = d.Tables[CB.TableID];
 
-                    
-                    DT.Rows.Add(DA.Name
-                        //, (VT.ExtendedProperties["TableType"].ToString() == "Table"
-                        //  || (VT.ExtendedProperties["TableType"].ToString() == "View" )
-                        //  )
-                        //? VT.ExtendedProperties["DbTableName"] : VT.ExtendedProperties["QueryDefinition"]
-
-                         , VT.ExtendedProperties["DbSchemaName"].ToString() == "" ? VT.ExtendedProperties["QueryDefinition"] : VT.ExtendedProperties["DbTableName"]
-                        , source.Substring(source.IndexOf(".") + 1)
-                        , NameColumn.Substring(NameColumn.IndexOf(".") + 1) 
-                        , DA.Usage
-                        ,VT.ExtendedProperties["FriendlyName"]
-                        ,VT.ExtendedProperties["TableType"]
+                    if (VT.ExtendedProperties["QueryDefinition"] != null)
+                    {
+                        DT.Rows.Add(DA.Name
+                         , VT.ExtendedProperties["QueryDefinition"].ToString()
+                         , source.Substring(source.IndexOf(".") + 1)
+                         , NameColumn.Substring(NameColumn.IndexOf(".") + 1)
+                         , DA.Usage
+                         , VT.ExtendedProperties["FriendlyName"]
+                        , "NamedQuery"
                         );
+                    }
+                    else
+                    {
+                        DT.Rows.Add(DA.Name
+                         , VT.ExtendedProperties["DbTableName"]
+                         , source.Substring(source.IndexOf(".") + 1)
+                         , NameColumn.Substring(NameColumn.IndexOf(".") + 1)
+                         , DA.Usage
+                         , VT.ExtendedProperties["FriendlyName"]
+                        , VT.ExtendedProperties["TableType"]
+                        );
+                    }
+
                     //Console.Write(DI.DataType + " | " + DI.Source + " | ");
 
                     
-
                     //GetDataSourceViewDefinitionByTableID(VT);
                 }
             }
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show(e.ToString());
+                    }
             return(DT);
         }
 
